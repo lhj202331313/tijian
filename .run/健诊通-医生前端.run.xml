@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="健诊通-医生前端(5174)" type="js.build_tools.npm" factoryName="npm">
+    <package-json value="$PROJECT_DIR$/doctorfront/package.json" />
+    <command value="run" />
+    <scripts>
+      <script value="dev" />
+    </scripts>
+    <node-interpreter value="C:\Users\wangb\node-v18.20.5-win-x64\node.exe" />
+    <package-manager value="C:\Users\wangb\node-v18.20.5-win-x64\node_modules\npm\bin\npm-cli.js" />
+    <envs />
+    <method v="2" />
+  </configuration>
+</component>

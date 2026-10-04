@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="健诊通-一键启动全部" type="CompoundRunConfigurationType">
+    <toRun name="健诊通-用户后端(8081)" type="SpringBootApplicationConfigurationType" />
+    <toRun name="健诊通-医生后端(8082)" type="SpringBootApplicationConfigurationType" />
+    <toRun name="健诊通-用户前端(5173)" type="js.build_tools.npm" />
+    <toRun name="健诊通-医生前端(5174)" type="js.build_tools.npm" />
+    <method v="2" />
+  </configuration>
+</component>

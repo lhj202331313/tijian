@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boy.wang.userservice.mapper.DoctorMapper">
+
+    <resultMap id="doctorResultMap" type="boy.wang.userservice.entity.Doctor">
+        <id column="id" property="id"/>
+        <result column="real_name" property="realName"/>
+        <result column="department" property="department"/>
+        <result column="phone" property="phone"/>
+        <result column="hospital_id" property="hospitalId"/>
+        <result column="hospital_name" property="hospitalName"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <sql id="baseColumns">
+        d.id, d.real_name, d.department, d.phone, d.hospital_id, d.status,
+        h.name AS hospital_name
+    </sql>
+
+    <select id="findByHospitalId" resultMap="doctorResultMap">
+        SELECT <include refid="baseColumns"/>
+        FROM doctor d
+        LEFT JOIN hospital h ON h.id = d.hospital_id
+        WHERE d.hospital_id = #{hospitalId}
+          AND d.status = 1
+        ORDER BY d.id
+    </select>
+
+    <select id="findById" resultMap="doctorResultMap">
+        SELECT <include refid="baseColumns"/>
+        FROM doctor d
+        LEFT JOIN hospital h ON h.id = d.hospital_id
+        WHERE d.id = #{id}
+    </select>
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boy.wang.doctorservice.mapper.CheckitemDetailedMapper">
+
+    <resultMap id="checkitemDetailedMap" type="boy.wang.doctorservice.entity.CheckitemDetailed">
+        <id property="id" column="id"/>
+        <result property="checkitemId" column="checkitem_id"/>
+        <result property="name" column="name"/>
+        <result property="unit" column="unit"/>
+        <result property="normalRange" column="normal_range"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <select id="findByCheckitemId" resultMap="checkitemDetailedMap">
+        SELECT id, checkitem_id, name, unit, normal_range, status
+        FROM checkitemdetailed
+        WHERE checkitem_id = #{checkitemId}
+        ORDER BY id
+    </select>
+</mapper>

@@ -1,0 +1,134 @@
+/* 全局公共样式 */
+:root {
+  --primary-color: #1976d2;
+  --secondary-color: #2dc4b6;
+  --danger-color: #f44336;
+  --success-color: #4caf50;
+  --text-primary: #303133;
+  --text-regular: #606266;
+  --text-secondary: #909399;
+  --border-color: #ebeef5;
+  --bg-color: #f5f7fa;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  font-family: 'Microsoft YaHei', '微软雅黑', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text-primary);
+  background-color: var(--bg-color);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* 主题色覆盖 Element Plus */
+.el-button--primary {
+  --el-button-bg-color: var(--primary-color);
+  --el-button-border-color: var(--primary-color);
+  --el-button-hover-bg-color: #2080e0;
+  --el-button-hover-border-color: #2080e0;
+  --el-button-active-bg-color: #1565c0;
+  --el-button-active-border-color: #1565c0;
+}
+
+/* 渐变主按钮 */
+.btn-gradient {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: #fff;
+  border: none;
+}
+
+.btn-gradient:hover,
+.btn-gradient:focus {
+  background: linear-gradient(135deg, #2080e0 0%, #36d4c6 100%);
+  color: #fff;
+}
+
+/* 容器：最大宽度 1200px 居中 */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* 通用卡片 */
+.card-shadow {
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.card-shadow:hover {
+  box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.12);
+}
+
+/* 页面标题 */
+.page-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 24px 0;
+}
+
+/* 状态标签颜色 */
+.status-pending {
+  color: #ff9800;
+}
+
+.status-done {
+  color: var(--success-color);
+}
+
+.status-cancel {
+  color: var(--text-secondary);
+}
+
+/* 异常红色 */
+.text-danger {
+  color: var(--danger-color);
+}
+
+/* 正常绿色 */
+.text-success {
+  color: var(--success-color);
+}
+
+/* 链接样式按钮 */
+.link-text {
+  color: var(--primary-color);
+  cursor: pointer;
+}
+
+.link-text:hover {
+  text-decoration: underline;
+}
+
+/* 页脚 */
+.app-footer {
+  background: #fff;
+  border-top: 1px solid var(--border-color);
+  padding: 24px 0;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-top: 40px;
+}

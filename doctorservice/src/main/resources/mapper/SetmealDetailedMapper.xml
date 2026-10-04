@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boy.wang.doctorservice.mapper.SetmealDetailedMapper">
+
+    <resultMap id="setmealDetailedMap" type="boy.wang.doctorservice.entity.SetmealDetailed">
+        <id property="id" column="id"/>
+        <result property="setmealId" column="setmeal_id"/>
+        <result property="checkitemId" column="checkitem_id"/>
+    </resultMap>
+
+    <select id="findBySetmealId" resultMap="setmealDetailedMap">
+        SELECT id, setmeal_id, checkitem_id
+        FROM setmealdetailed
+        WHERE setmeal_id = #{setmealId}
+    </select>
+</mapper>

@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="健诊通-用户前端(5173)" type="js.build_tools.npm" factoryName="npm">
+    <package-json value="$PROJECT_DIR$/userfront/package.json" />
+    <command value="run" />
+    <scripts>
+      <script value="dev" />
+    </scripts>
+    <node-interpreter value="C:\Users\wangb\node-v18.20.5-win-x64\node.exe" />
+    <package-manager value="C:\Users\wangb\node-v18.20.5-win-x64\node_modules\npm\bin\npm-cli.js" />
+    <envs />
+    <method v="2" />
+  </configuration>
+</component>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boy.wang.doctorservice.mapper.OrdersMapper">
+
+    <resultMap id="orderListMap" type="boy.wang.doctorservice.dto.OrderListVO">
+        <id property="id" column="id"/>
+        <result property="orderNo" column="order_no"/>
+        <result property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="userPhone" column="user_phone"/>
+        <result property="hospitalId" column="hospital_id"/>
+        <result property="hospitalName" column="hospital_name"/>
+        <result property="setmealId" column="setmeal_id"/>
+        <result property="setmealName" column="setmeal_name"/>
+        <result property="doctorId" column="doctor_id"/>
+        <result property="doctorName" column="doctor_name"/>
+        <result property="doctorDepartment" column="doctor_department"/>
+        <result property="orderDate" column="order_date"/>
+        <result property="orderStatus" column="order_status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="cancelTime" column="cancel_time"/>
+    </resultMap>
+
+    <resultMap id="orderDetailMap" type="boy.wang.doctorservice.dto.OrderDetailVO">
+        <id property="id" column="o_id"/>
+        <result property="orderNo" column="order_no"/>
+        <result property="orderDate" column="order_date"/>
+        <result property="orderStatus" column="order_status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="cancelTime" column="cancel_time"/>
+        <association property="user" javaType="boy.wang.doctorservice.entity.User">
+            <id property="id" column="u_id"/>
+            <result property="username" column="u_username"/>
+            <result property="realName" column="u_real_name"/>
+            <result property="idCard" column="u_id_card"/>
+            <result property="phone" column="u_phone"/>
+            <result property="sex" column="u_sex"/>
+        </association>
+        <association property="hospital" javaType="boy.wang.doctorservice.entity.Hospital">
+            <id property="id" column="h_id"/>
+            <result property="name" column="h_name"/>
+            <result property="address" column="h_address"/>
+            <result property="phone" column="h_phone"/>
+            <result property="businessHours" column="h_business_hours"/>
+            <result property="ruleDesc" column="h_rule_desc"/>
+        </association>
+        <association property="setmeal" javaType="boy.wang.doctorservice.entity.Setmeal">
+            <id property="id" column="s_id"/>
+            <result property="hospitalId" column="s_hospital_id"/>
+            <result property="name" column="s_name"/>
+            <result property="type" column="s_type"/>
+            <result property="price" column="s_price"/>
+            <result property="description" column="s_description"/>
+        </association>
+        <association property="doctor" javaType="boy.wang.doctorservice.entity.Doctor">
+            <id property="id" column="doc_id"/>
+            <result property="realName" column="doc_real_name"/>
+            <result property="department" column="doc_department"/>
+        </association>
+    </resultMap>
+
+    <sql id="listColumns">
+        o.id, o.order_no, o.user_id, u.real_name AS user_name, u.phone AS user_phone,
+        o.hospital_id, h.name AS hospital_name, o.setmeal_id, s.name AS setmeal_name,
+        o.doctor_id, doc.real_name AS doctor_name, doc.department AS doctor_department,
+        o.order_date, o.order_status, o.create_time, o.cancel_time
+    </sql>
+
+    <select id="findList" resultMap="orderListMap">
+        SELECT <include refid="listColumns"/>
+        FROM orders o
+        LEFT JOIN users u ON o.user_id = u.id
+        LEFT JOIN hospital h ON o.hospital_id = h.id
+        LEFT JOIN setmeal s ON o.setmeal_id = s.id
+        LEFT JOIN doctor doc ON doc.id = o.doctor_id
+        <where>
+            <if test="query.status != null">
+                AND o.order_status = #{query.status}
+            </if>
+            <if test="query.orderDate != null and query.orderDate != ''">
+                AND o.order_date = #{query.orderDate}
+            </if>
+        </where>
+        ORDER BY o.order_date DESC, o.create_time DESC
+        LIMIT #{offset}, #{size}
+    </select>
+
+    <select id="countList" resultType="long">
+        SELECT COUNT(1)
+        FROM orders o
+        <where>
+            <if test="query.status != null">
+                AND o.order_status = #{query.status}
+            </if>
+            <if test="query.orderDate != null and query.orderDate != ''">
+                AND o.order_date = #{query.orderDate}
+            </if>
+        </where>
+    </select>
+
+    <select id="findDetailById" resultMap="orderDetailMap">
+        SELECT o.id AS o_id, o.order_no, o.order_date, o.order_status, o.create_time, o.cancel_time,
+               u.id AS u_id, u.username AS u_username, u.real_name AS u_real_name,
+               u.id_card AS u_id_card, u.phone AS u_phone, u.sex AS u_sex,
+               h.id AS h_id, h.name AS h_name, h.address AS h_address, h.phone AS h_phone,
+               h.business_hours AS h_business_hours, h.rule_desc AS h_rule_desc,
+               s.id AS s_id, s.hospital_id AS s_hospital_id, s.name AS s_name,
+               s.type AS s_type, s.price AS s_price, s.description AS s_description,
+               doc.id AS doc_id, doc.real_name AS doc_real_name, doc.department AS doc_department
+        FROM orders o
+        LEFT JOIN users u ON o.user_id = u.id
+        LEFT JOIN hospital h ON o.hospital_id = h.id
+        LEFT JOIN setmeal s ON o.setmeal_id = s.id
+        LEFT JOIN doctor doc ON doc.id = o.doctor_id
+        WHERE o.id = #{id}
+    </select>
+
+    <select id="findById" resultType="boy.wang.doctorservice.entity.Orders">
+        SELECT id, order_no, user_id, hospital_id, setmeal_id, doctor_id, order_date, order_status, create_time, cancel_time
+        FROM orders
+        WHERE id = #{id}
+    </select>
+
+    <update id="updateStatus">
+        UPDATE orders
+        SET order_status = #{status}
+        WHERE id = #{id}
+    </update>
+</mapper>

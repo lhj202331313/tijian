@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boy.wang.doctorservice.mapper.CiDetailedReportMapper">
+
+    <resultMap id="ciDetailedReportMap" type="boy.wang.doctorservice.entity.CiDetailedReport">
+        <id property="id" column="id"/>
+        <result property="cireportId" column="cireport_id"/>
+        <result property="checkitemdetailedId" column="checkitemdetailed_id"/>
+        <result property="resultValue" column="result_value"/>
+        <result property="isAbnormal" column="is_abnormal"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <select id="findByCireportAndDetail" resultMap="ciDetailedReportMap">
+        SELECT id, cireport_id, checkitemdetailed_id, result_value, is_abnormal, create_time
+        FROM cidetailedreport
+        WHERE cireport_id = #{cireportId} AND checkitemdetailed_id = #{checkitemdetailedId}
+    </select>
+
+    <insert id="insert" parameterType="boy.wang.doctorservice.entity.CiDetailedReport" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO cidetailedreport (cireport_id, checkitemdetailed_id, result_value, is_abnormal, create_time)
+        VALUES (#{cireportId}, #{checkitemdetailedId}, #{resultValue}, #{isAbnormal}, #{createTime})
+    </insert>
+
+    <update id="updateResult">
+        UPDATE cidetailedreport
+        SET result_value = #{resultValue},
+            is_abnormal = #{isAbnormal}
+        WHERE id = #{id}
+    </update>
+</mapper>

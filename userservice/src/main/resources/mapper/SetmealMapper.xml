@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boy.wang.userservice.mapper.SetmealMapper">
+
+    <resultMap id="setmealResultMap" type="boy.wang.userservice.entity.Setmeal">
+        <id column="id" property="id"/>
+        <result column="hospital_id" property="hospitalId"/>
+        <result column="hospital_name" property="hospitalName"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
+        <result column="price" property="price"/>
+        <result column="description" property="description"/>
+        <result column="status" property="status"/>
+        <result column="item_count" property="itemCount"/>
+    </resultMap>
+
+    <resultMap id="setmealWithCheckitemsResultMap" type="boy.wang.userservice.entity.Setmeal">
+        <id column="id" property="id"/>
+        <result column="hospital_id" property="hospitalId"/>
+        <result column="hospital_name" property="hospitalName"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
+        <result column="price" property="price"/>
+        <result column="description" property="description"/>
+        <result column="status" property="status"/>
+        <result column="item_count" property="itemCount"/>
+        <collection property="checkitemList" ofType="boy.wang.userservice.entity.Checkitem">
+            <id column="ci_id" property="id"/>
+            <result column="ci_name" property="name"/>
+            <result column="ci_type" property="type"/>
+            <result column="ci_sort_no" property="sortNo"/>
+            <result column="ci_status" property="status"/>
+        </collection>
+    </resultMap>
+
+    <sql id="baseColumns">
+        s.id, s.hospital_id, h.name AS hospital_name, s.name, s.type, s.price, s.description, s.status,
+        (SELECT COUNT(*) FROM setmealdetailed sd WHERE sd.setmeal_id = s.id) AS item_count
+    </sql>
+
+    <select id="selectByCondition" resultMap="setmealResultMap">
+        SELECT <include refid="baseColumns"/>
+        FROM setmeal s
+        LEFT JOIN hospital h ON h.id = s.hospital_id
+        WHERE s.status = 1
+        <if test="hospitalId != null">
+            AND s.hospital_id = #{hospitalId}
+        </if>
+        <if test="type != null and type != ''">
+            AND s.type = #{type}
+        </if>
+        ORDER BY s.id ASC
+    </select>
+
+    <select id="selectById" resultMap="setmealResultMap">
+        SELECT <include refid="baseColumns"/>
+        FROM setmeal s
+        LEFT JOIN hospital h ON h.id = s.hospital_id
+        WHERE s.id = #{id}
+    </select>
+
+    <select id="selectByIdWithCheckitems" resultMap="setmealWithCheckitemsResultMap">
+        SELECT
+            s.id, s.hospital_id, h.name AS hospital_name,
+            s.name, s.type, s.price, s.description, s.status,
+            (SELECT COUNT(*) FROM setmealdetailed sd2 WHERE sd2.setmeal_id = s.id) AS item_count,
+            c.id AS ci_id, c.name AS ci_name, c.type AS ci_type,
+            c.sort_no AS ci_sort_no, c.status AS ci_status
+        FROM setmeal s
+        LEFT JOIN hospital h ON h.id = s.hospital_id
+        LEFT JOIN setmealdetailed sd ON sd.setmeal_id = s.id
+        LEFT JOIN checkitem c ON c.id = sd.checkitem_id AND c.status = 1
+        WHERE s.id = #{id}
+        ORDER BY c.sort_no ASC
+    </select>
+
+</mapper>

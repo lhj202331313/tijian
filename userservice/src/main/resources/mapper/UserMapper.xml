@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boy.wang.userservice.mapper.UserMapper">
+
+    <resultMap id="userResultMap" type="boy.wang.userservice.entity.User">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="real_name" property="realName"/>
+        <result column="id_card" property="idCard"/>
+        <result column="phone" property="phone"/>
+        <result column="sex" property="sex"/>
+        <result column="create_time" property="createTime"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <sql id="baseColumns">
+        id, username, password, real_name, id_card, phone, sex, create_time, status
+    </sql>
+
+    <insert id="insert" parameterType="boy.wang.userservice.entity.User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users (username, password, real_name, id_card, phone, sex, status)
+        VALUES (#{username}, #{password}, #{realName}, #{idCard}, #{phone}, #{sex}, #{status})
+    </insert>
+
+    <select id="selectByUsername" resultMap="userResultMap">
+        SELECT <include refid="baseColumns"/>
+        FROM users
+        WHERE username = #{username}
+    </select>
+
+    <select id="selectById" resultMap="userResultMap">
+        SELECT <include refid="baseColumns"/>
+        FROM users
+        WHERE id = #{id}
+    </select>
+
+    <update id="updateById" parameterType="boy.wang.userservice.entity.User">
+        UPDATE users
+        <set>
+            <if test="username != null">username = #{username},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="realName != null">real_name = #{realName},</if>
+            <if test="idCard != null">id_card = #{idCard},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectAll" resultMap="userResultMap">
+        SELECT <include refid="baseColumns"/>
+        FROM users
+        ORDER BY id DESC
+    </select>
+
+</mapper>

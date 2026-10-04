@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boy.wang.userservice.mapper.HospitalMapper">
+
+    <resultMap id="hospitalResultMap" type="boy.wang.userservice.entity.Hospital">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="address" property="address"/>
+        <result column="phone" property="phone"/>
+        <result column="business_hours" property="businessHours"/>
+        <result column="rule_desc" property="ruleDesc"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <resultMap id="hospitalWithSetmealsResultMap" type="boy.wang.userservice.entity.Hospital">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="address" property="address"/>
+        <result column="phone" property="phone"/>
+        <result column="business_hours" property="businessHours"/>
+        <result column="rule_desc" property="ruleDesc"/>
+        <result column="status" property="status"/>
+        <collection property="setmealList" ofType="boy.wang.userservice.entity.Setmeal">
+            <id column="sm_id" property="id"/>
+            <result column="sm_hospital_id" property="hospitalId"/>
+            <result column="sm_name" property="name"/>
+            <result column="sm_type" property="type"/>
+            <result column="sm_price" property="price"/>
+            <result column="sm_description" property="description"/>
+            <result column="sm_status" property="status"/>
+        </collection>
+    </resultMap>
+
+    <sql id="baseColumns">
+        id, name, address, phone, business_hours, rule_desc, status
+    </sql>
+
+    <select id="selectAllActive" resultMap="hospitalResultMap">
+        SELECT <include refid="baseColumns"/>
+        FROM hospital
+        WHERE status = 1
+        ORDER BY id ASC
+    </select>
+
+    <select id="selectById" resultMap="hospitalResultMap">
+        SELECT <include refid="baseColumns"/>
+        FROM hospital
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectByIdWithSetmeals" resultMap="hospitalWithSetmealsResultMap">
+        SELECT
+            h.id, h.name, h.address, h.phone, h.business_hours, h.rule_desc, h.status,
+            s.id AS sm_id, s.hospital_id AS sm_hospital_id, s.name AS sm_name,
+            s.type AS sm_type, s.price AS sm_price, s.description AS sm_description, s.status AS sm_status
+        FROM hospital h
+        LEFT JOIN setmeal s ON s.hospital_id = h.id AND s.status = 1
+        WHERE h.id = #{id}
+    </select>
+
+</mapper>

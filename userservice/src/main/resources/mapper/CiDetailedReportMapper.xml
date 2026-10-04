@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boy.wang.userservice.mapper.CiDetailedReportMapper">
+
+    <resultMap id="ciDetailedReportResultMap" type="boy.wang.userservice.entity.CiDetailedReport">
+        <id column="id" property="id"/>
+        <result column="cireport_id" property="cireportId"/>
+        <result column="checkitemdetailed_id" property="checkitemdetailedId"/>
+        <result column="result_value" property="resultValue"/>
+        <result column="is_abnormal" property="isAbnormal"/>
+        <result column="create_time" property="createTime"/>
+        <result column="name" property="name"/>
+        <result column="unit" property="unit"/>
+        <result column="normal_range" property="normalRange"/>
+    </resultMap>
+
+    <select id="selectByCireportId" resultMap="ciDetailedReportResultMap">
+        SELECT cdr.id, cdr.cireport_id, cdr.checkitemdetailed_id, cdr.result_value,
+               cdr.is_abnormal, cdr.create_time,
+               cid.name, cid.unit, cid.normal_range
+        FROM cidetailedreport cdr
+        LEFT JOIN checkitemdetailed cid ON cid.id = cdr.checkitemdetailed_id
+        WHERE cdr.cireport_id = #{cireportId}
+        ORDER BY cdr.id ASC
+    </select>
+
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boy.wang.userservice.mapper.CheckitemDetailedMapper">
+
+    <resultMap id="checkitemDetailedResultMap" type="boy.wang.userservice.entity.CheckitemDetailed">
+        <id column="id" property="id"/>
+        <result column="checkitem_id" property="checkitemId"/>
+        <result column="name" property="name"/>
+        <result column="unit" property="unit"/>
+        <result column="normal_range" property="normalRange"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <sql id="baseColumns">
+        id, checkitem_id, name, unit, normal_range, status
+    </sql>
+
+    <select id="selectById" resultMap="checkitemDetailedResultMap">
+        SELECT <include refid="baseColumns"/>
+        FROM checkitemdetailed
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectByCheckitemId" resultMap="checkitemDetailedResultMap">
+        SELECT <include refid="baseColumns"/>
+        FROM checkitemdetailed
+        WHERE checkitem_id = #{checkitemId} AND status = 1
+    </select>
+
+</mapper>

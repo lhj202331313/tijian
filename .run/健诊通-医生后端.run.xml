@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="健诊通-医生后端(8082)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="doctorservice" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="boy.wang.doctorservice.DoctorserviceApplication" />
+    <option name="ALTERNATIVE_JRE_PATH" value="ms-17" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>预约体检 - 健诊通</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <header class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">医</span>
+                <span class="logo-text">健<span class="accent">诊通</span></span>
+            </a>
+            <nav class="nav-menu">
+                <a href="index.html">首页</a>
+                <a href="hospitals.html">医院</a>
+                <a href="setmeals.html">体检套餐</a>
+                <a href="booking.html" class="active">预约体检</a>
+                <a href="report.html">报告查询</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="javascript:void(0);" class="btn btn-outline btn-sm">用户登录</a>
+                <a href="javascript:void(0);" class="btn btn-primary btn-sm">医生登录</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 页面横幅 -->
+    <section class="page-banner">
+        <div class="container">
+            <h1>预约体检</h1>
+            <p>确认套餐信息，填写预约资料，一键完成体检预约</p>
+        </div>
+    </section>
+
+    <!-- 面包屑 -->
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">首页</a>
+            <span>></span>
+            <a href="setmeals.html">体检套餐</a>
+            <span>></span>
+            <a href="booking.html">预约体检</a>
+        </div>
+    </div>
+
+    <section class="section" style="padding-top:20px;">
+        <div class="container">
+            <div class="booking-wrap">
+                <!-- 左侧：套餐详情 -->
+                <div class="booking-detail">
+                    <h2>中老年全面套餐</h2>
+
+                    <div class="detail-row">
+                        <div class="label">所属医院：</div>
+                        <div class="value">郑州大学第二附属医院体检科</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="label">套餐类型：</div>
+                        <div class="value"><span class="tag">综合类</span></div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="label">套餐价格：</div>
+                        <div class="value" style="color:#ff5722;font-weight:bold;font-size:22px;">¥899</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="label">体检时长：</div>
+                        <div class="value">约 2-3 小时</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="label">报告周期：</div>
+                        <div class="value">体检完成后 3-5 个工作日</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="label">营业时间：</div>
+                        <div class="value">周一至周五 08:00-11:30</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="label">医院地址：</div>
+                        <div class="value">郑州市金水区经八路2号</div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>套餐描述</h3>
+                        <p style="color:#666;line-height:1.9;">
+                            面向 50 岁以上中老年人群设计的全面体检套餐，覆盖心脑血管、肿瘤标志物、
+                            腹部B超、心电图、甲状腺彩超等核心检查项目，全面评估中老年人常见健康风险，
+                            为慢病管理与早期干预提供权威依据。
+                        </p>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>包含检查项目（10 项）</h3>
+                        <ul class="includes-list">
+                            <li>一般检查</li>
+                            <li>血常规</li>
+                            <li>尿常规</li>
+                            <li>肝功能</li>
+                            <li>肾功能</li>
+                            <li>血脂</li>
+                            <li>胸透</li>
+                            <li>腹部B超</li>
+                            <li>心电图</li>
+                            <li>甲状腺彩超</li>
+                        </ul>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>体检须知</h3>
+                        <p style="color:#666;line-height:1.9;font-size:13px;">
+                            1. 体检前一日 22:00 后请勿进食、饮水，体检当天早晨需保持空腹；<br>
+                            2. 检查当日请穿着轻便、易于穿脱的衣物，避免佩戴金属饰品；<br>
+                            3. 女性进行妇科、乳腺检查请尽量避开月经期；<br>
+                            4. 进行B超检查前请憋尿以保证影像质量；<br>
+                            5. 体检当日请携带本人有效身份证件。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 右侧：预约表单 -->
+                <div class="booking-form">
+                    <h2>填写预约信息</h2>
+                    <form onsubmit="event.preventDefault(); alert('演示页面：预约信息已提交，订单号为 JZT20260915001，可在报告查询页查看进度。');">
+                        <div class="form-group">
+                            <label>姓名 <span class="required">*</span></label>
+                            <input type="text" class="form-control" name="name" placeholder="请输入真实姓名" required>
+                        </div>
+                        <div class="form-group">
+                            <label>身份证号 <span class="required">*</span></label>
+                            <input type="text" class="form-control" name="idcard" placeholder="请输入18位身份证号" maxlength="18" required>
+                        </div>
+                        <div class="form-group">
+                            <label>手机号 <span class="required">*</span></label>
+                            <input type="tel" class="form-control" name="phone" placeholder="请输入11位手机号" maxlength="11" required>
+                            <div class="form-tip">用于接收预约确认短信与体检报告通知</div>
+                        </div>
+                        <div class="form-group">
+                            <label>体检日期 <span class="required">*</span></label>
+                            <input type="date" class="form-control" name="date" required>
+                            <div class="form-tip">营业时间：周一至周五 08:00-11:30</div>
+                        </div>
+                        <div class="form-group">
+                            <label>体检人性别</label>
+                            <select class="form-control" name="gender">
+                                <option value="male">男</option>
+                                <option value="female">女</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>备注</label>
+                            <textarea class="form-control" name="remark" placeholder="如有既往病史、过敏史或特殊需求请告知"></textarea>
+                        </div>
+                        <div class="form-group" style="background:#f5f8fa;padding:12px;border-radius:6px;">
+                            <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+                                <span style="color:#666;">套餐金额</span>
+                                <span>¥899</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+                                <span style="color:#666;">服务费</span>
+                                <span>¥0</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;font-weight:bold;color:#ff5722;font-size:18px;border-top:1px dashed #ddd;padding-top:8px;">
+                                <span>应付金额</span>
+                                <span>¥899</span>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block" style="padding:12px;font-size:16px;">提交预约</button>
+                        <div class="form-tip text-center" style="margin-top:10px;">
+                            提交即代表同意《健诊通用户协议》与《体检服务条款》
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 订单状态说明 -->
+            <div class="order-status-note">
+                <h3>📋 订单状态说明</h3>
+                <div class="status-steps">
+                    <div class="status-step active">
+                        <div class="dot">1</div>
+                        <div class="text">提交预约</div>
+                    </div>
+                    <div class="status-step active">
+                        <div class="dot">2</div>
+                        <div class="text">待体检</div>
+                    </div>
+                    <div class="status-step">
+                        <div class="dot">3</div>
+                        <div class="text">体检中</div>
+                    </div>
+                    <div class="status-step">
+                        <div class="dot">4</div>
+                        <div class="text">已完成</div>
+                    </div>
+                    <div class="status-step">
+                        <div class="dot">×</div>
+                        <div class="text">已取消</div>
+                    </div>
+                </div>
+                <p style="color:#666;line-height:1.9;font-size:13px;">
+                    • <strong>待体检（状态码 0）</strong>：订单提交成功后状态，等待用户前往医院体检；<br>
+                    • <strong>已完成（状态码 1）</strong>：体检全部完成，可在“报告查询”页查看分项报告与总检结论；<br>
+                    • <strong>已取消（状态码 2）</strong>：用户主动取消或超时未到院体检导致订单作废；<br>
+                    • 体检报告一般在体检完成后 3-5 个工作日生成，期间请耐心等待。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <h3>健诊通</h3>
+                <p>专注健康体检预约与报告查询服务，连接优质医疗机构与每一位关心健康的您，让预防医学服务更多人。</p>
+            </div>
+            <div class="footer-col">
+                <h4>关于我们</h4>
+                <ul>
+                    <li><a href="javascript:void(0);">公司简介</a></li>
+                    <li><a href="javascript:void(0);">合作医院</a></li>
+                    <li><a href="javascript:void(0);">联系我们</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>服务支持</h4>
+                <ul>
+                    <li><a href="javascript:void(0);">预约指南</a></li>
+                    <li><a href="javascript:void(0);">报告解读</a></li>
+                    <li><a href="javascript:void(0);">常见问题</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>快速入口</h4>
+                <ul>
+                    <li><a href="hospitals.html">医院列表</a></li>
+                    <li><a href="setmeals.html">体检套餐</a></li>
+                    <li><a href="report.html">报告查询</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 健诊通 体检预约与报告查询平台  |  本站为静态原型演示，所有数据均为模拟数据
+        </div>
+    </footer>
+</body>
+</html>

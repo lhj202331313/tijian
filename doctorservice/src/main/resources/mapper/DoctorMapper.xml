@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boy.wang.doctorservice.mapper.DoctorMapper">
+
+    <resultMap id="doctorMap" type="boy.wang.doctorservice.entity.Doctor">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="realName" column="real_name"/>
+        <result property="department" column="department"/>
+        <result property="hospitalId" column="hospital_id"/>
+        <result property="hospitalName" column="hospital_name"/>
+        <result property="phone" column="phone"/>
+        <result property="createTime" column="create_time"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <sql id="columns">
+        d.id, d.username, d.password, d.real_name, d.department,
+        d.hospital_id, h.name AS hospital_name,
+        d.phone, d.create_time, d.status
+    </sql>
+
+    <select id="findByUsername" resultMap="doctorMap">
+        SELECT <include refid="columns"/>
+        FROM doctor d
+        LEFT JOIN hospital h ON h.id = d.hospital_id
+        WHERE d.username = #{username}
+    </select>
+
+    <select id="findById" resultMap="doctorMap">
+        SELECT <include refid="columns"/>
+        FROM doctor d
+        LEFT JOIN hospital h ON h.id = d.hospital_id
+        WHERE d.id = #{id}
+    </select>
+
+    <update id="updateProfile">
+        UPDATE doctor
+        <set>
+            <if test="realName != null">real_name = #{realName},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="department != null">department = #{department},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>

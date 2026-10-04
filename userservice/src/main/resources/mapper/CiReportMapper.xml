@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boy.wang.userservice.mapper.CiReportMapper">
+
+    <resultMap id="ciReportResultMap" type="boy.wang.userservice.entity.CiReport">
+        <id column="id" property="id"/>
+        <result column="order_id" property="orderId"/>
+        <result column="checkitem_id" property="checkitemId"/>
+        <result column="result_status" property="resultStatus"/>
+        <result column="report_time" property="reportTime"/>
+        <result column="checkitem_name" property="checkitemName"/>
+        <result column="checkitem_type" property="checkitemType"/>
+        <result column="sort_no" property="sortNo"/>
+    </resultMap>
+
+    <select id="selectByOrderId" resultMap="ciReportResultMap">
+        SELECT cr.id, cr.order_id, cr.checkitem_id, cr.result_status, cr.report_time,
+               c.name AS checkitem_name, c.type AS checkitem_type, c.sort_no
+        FROM cireport cr
+        LEFT JOIN checkitem c ON c.id = cr.checkitem_id
+        WHERE cr.order_id = #{orderId}
+        ORDER BY c.sort_no ASC
+    </select>
+
+    <select id="selectByOrderIdAndCheckitemId" resultMap="ciReportResultMap">
+        SELECT cr.id, cr.order_id, cr.checkitem_id, cr.result_status, cr.report_time,
+               c.name AS checkitem_name, c.type AS checkitem_type, c.sort_no
+        FROM cireport cr
+        LEFT JOIN checkitem c ON c.id = cr.checkitem_id
+        WHERE cr.order_id = #{orderId} AND cr.checkitem_id = #{checkitemId}
+    </select>
+
+</mapper>

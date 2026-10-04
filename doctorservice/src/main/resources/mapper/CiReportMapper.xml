@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boy.wang.doctorservice.mapper.CiReportMapper">
+
+    <resultMap id="ciReportVOMap" type="boy.wang.doctorservice.dto.CiReportVO">
+        <id property="id" column="cr_id"/>
+        <result property="orderId" column="cr_order_id"/>
+        <result property="checkitemId" column="cr_checkitem_id"/>
+        <result property="checkitemName" column="checkitem_name"/>
+        <result property="resultStatus" column="cr_result_status"/>
+        <result property="reportTime" column="cr_report_time"/>
+        <collection property="details" ofType="boy.wang.doctorservice.dto.CiDetailedReportVO">
+            <id property="id" column="cdr_id"/>
+            <result property="cireportId" column="cdr_cireport_id"/>
+            <result property="checkitemdetailedId" column="cdr_checkitemdetailed_id"/>
+            <result property="name" column="detail_name"/>
+            <result property="unit" column="detail_unit"/>
+            <result property="normalRange" column="detail_normal_range"/>
+            <result property="resultValue" column="cdr_result_value"/>
+            <result property="isAbnormal" column="cdr_is_abnormal"/>
+            <result property="createTime" column="cdr_create_time"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="ciReportEntityMap" type="boy.wang.doctorservice.entity.CiReport">
+        <id property="id" column="id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="checkitemId" column="checkitem_id"/>
+        <result property="resultStatus" column="result_status"/>
+        <result property="reportTime" column="report_time"/>
+    </resultMap>
+
+    <sql id="voColumns">
+        cr.id AS cr_id, cr.order_id AS cr_order_id, cr.checkitem_id AS cr_checkitem_id,
+        ci.name AS checkitem_name, cr.result_status AS cr_result_status, cr.report_time AS cr_report_time,
+        cdr.id AS cdr_id, cdr.cireport_id AS cdr_cireport_id,
+        cdr.checkitemdetailed_id AS cdr_checkitemdetailed_id,
+        cid.name AS detail_name, cid.unit AS detail_unit, cid.normal_range AS detail_normal_range,
+        cdr.result_value AS cdr_result_value, cdr.is_abnormal AS cdr_is_abnormal,
+        cdr.create_time AS cdr_create_time
+    </sql>
+
+    <sql id="voFrom">
+        FROM cireport cr
+        LEFT JOIN checkitem ci ON cr.checkitem_id = ci.id
+        LEFT JOIN cidetailedreport cdr ON cdr.cireport_id = cr.id
+        LEFT JOIN checkitemdetailed cid ON cdr.checkitemdetailed_id = cid.id
+    </sql>
+
+    <select id="findVOByOrderId" resultMap="ciReportVOMap">
+        SELECT <include refid="voColumns"/>
+        <include refid="voFrom"/>
+        WHERE cr.order_id = #{orderId}
+        ORDER BY ci.sort_no, cr.id, cdr.id
+    </select>
+
+    <select id="findVOByOrderAndCheckitem" resultMap="ciReportVOMap">
+        SELECT <include refid="voColumns"/>
+        <include refid="voFrom"/>
+        WHERE cr.order_id = #{orderId} AND cr.checkitem_id = #{checkitemId}
+    </select>
+
+    <select id="findEntityByOrderAndCheckitem" resultMap="ciReportEntityMap">
+        SELECT id, order_id, checkitem_id, result_status, report_time
+        FROM cireport
+        WHERE order_id = #{orderId} AND checkitem_id = #{checkitemId}
+    </select>
+
+    <insert id="insert" parameterType="boy.wang.doctorservice.entity.CiReport" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO cireport (order_id, checkitem_id, result_status, report_time)
+        VALUES (#{orderId}, #{checkitemId}, #{resultStatus}, #{reportTime})
+    </insert>
+
+    <update id="updateStatusAndTime">
+        UPDATE cireport
+        SET result_status = #{resultStatus},
+            report_time = #{reportTime}
+        WHERE id = #{id}
+    </update>
+</mapper>

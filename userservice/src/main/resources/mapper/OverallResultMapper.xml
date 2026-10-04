@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boy.wang.userservice.mapper.OverallResultMapper">
+
+    <resultMap id="overallResultResultMap" type="boy.wang.userservice.entity.OverallResult">
+        <id column="id" property="id"/>
+        <result column="order_id" property="orderId"/>
+        <result column="doctor_id" property="doctorId"/>
+        <result column="summary" property="summary"/>
+        <result column="doctor_name" property="doctorName"/>
+        <result column="result_status" property="resultStatus"/>
+        <result column="create_time" property="createTime"/>
+        <result column="publish_time" property="publishTime"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <sql id="baseColumns">
+        id, order_id, doctor_id, summary, doctor_name, result_status, create_time, publish_time, status
+    </sql>
+
+    <select id="selectPublishedByOrderId" resultMap="overallResultResultMap">
+        SELECT <include refid="baseColumns"/>
+        FROM overallresult
+        WHERE order_id = #{orderId} AND status = 1
+    </select>
+
+    <select id="selectByOrderId" resultMap="overallResultResultMap">
+        SELECT <include refid="baseColumns"/>
+        FROM overallresult
+        WHERE order_id = #{orderId}
+    </select>
+
+</mapper>

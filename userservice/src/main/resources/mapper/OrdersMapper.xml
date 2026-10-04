@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boy.wang.userservice.mapper.OrdersMapper">
+
+    <resultMap id="ordersResultMap" type="boy.wang.userservice.entity.Orders">
+        <id column="id" property="id"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="user_id" property="userId"/>
+        <result column="hospital_id" property="hospitalId"/>
+        <result column="setmeal_id" property="setmealId"/>
+        <result column="order_date" property="orderDate"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="create_time" property="createTime"/>
+        <result column="cancel_time" property="cancelTime"/>
+        <result column="hospital_name" property="hospitalName"/>
+        <result column="setmeal_name" property="setmealName"/>
+        <result column="setmeal_type" property="setmealType"/>
+        <result column="setmeal_price" property="setmealPrice"/>
+        <result column="doctor_id" property="doctorId"/>
+        <result column="doctor_name" property="doctorName"/>
+        <result column="doctor_department" property="doctorDepartment"/>
+    </resultMap>
+
+    <sql id="baseColumns">
+        id, order_no, user_id, hospital_id, setmeal_id, doctor_id, order_date, order_status, create_time, cancel_time
+    </sql>
+
+    <insert id="insert" parameterType="boy.wang.userservice.entity.Orders" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO orders (order_no, user_id, hospital_id, setmeal_id, doctor_id, order_date, order_status, create_time)
+        VALUES (#{orderNo}, #{userId}, #{hospitalId}, #{setmealId}, #{doctorId}, #{orderDate}, #{orderStatus}, #{createTime})
+    </insert>
+
+    <select id="selectById" resultMap="ordersResultMap">
+        SELECT o.id, o.order_no, o.user_id, o.hospital_id, o.setmeal_id, o.doctor_id, o.order_date,
+               o.order_status, o.create_time, o.cancel_time,
+               h.name AS hospital_name, s.name AS setmeal_name,
+               s.type AS setmeal_type, s.price AS setmeal_price,
+               doc.real_name AS doctor_name, doc.department AS doctor_department
+        FROM orders o
+        LEFT JOIN hospital h ON h.id = o.hospital_id
+        LEFT JOIN setmeal s ON s.id = o.setmeal_id
+        LEFT JOIN doctor doc ON doc.id = o.doctor_id
+        WHERE o.id = #{id}
+    </select>
+
+    <select id="selectByUserIdAndStatus" resultMap="ordersResultMap">
+        SELECT o.id, o.order_no, o.user_id, o.hospital_id, o.setmeal_id, o.doctor_id, o.order_date,
+               o.order_status, o.create_time, o.cancel_time,
+               h.name AS hospital_name, s.name AS setmeal_name,
+               s.type AS setmeal_type, s.price AS setmeal_price,
+               doc.real_name AS doctor_name, doc.department AS doctor_department
+        FROM orders o
+        LEFT JOIN hospital h ON h.id = o.hospital_id
+        LEFT JOIN setmeal s ON s.id = o.setmeal_id
+        LEFT JOIN doctor doc ON doc.id = o.doctor_id
+        WHERE o.user_id = #{userId}
+        <if test="orderStatus != null">
+            AND o.order_status = #{orderStatus}
+        </if>
+        ORDER BY o.create_time DESC
+    </select>
+
+    <update id="updateOrderStatus">
+        UPDATE orders
+        SET order_status = #{orderStatus}
+        <if test="cancelTime != null">
+            , cancel_time = #{cancelTime}
+        </if>
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectLastOrderNoByDate" resultType="java.lang.String">
+        SELECT order_no
+        FROM orders
+        WHERE order_no LIKE CONCAT(#{datePrefix}, '%')
+        ORDER BY id DESC
+        LIMIT 1
+    </select>
+
+</mapper>

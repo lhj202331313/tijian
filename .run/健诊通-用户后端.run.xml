@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="健诊通-用户后端(8081)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="userservice" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="boy.wang.userservice.UserserviceApplication" />
+    <option name="ALTERNATIVE_JRE_PATH" value="ms-17" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
